@@ -4,6 +4,7 @@ import com.techelevator.VendingMachineCLI;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -36,7 +37,19 @@ public class Inventory {
         if (selected == null) {
             System.out.println("Invalid Selection.");
         } else {
-            Accounting.purchaseItem(selected.price);
+            if (selected.stock > 0) {
+                if(selected.price <= Accounting.getCustomerMoney()) {
+                    Accounting.purchaseItem(selected);
+                    System.out.printf("Dispensing %s for $%.2f ... \n", selected.productName, selected.price);
+                    selected.purchaseConfirmation();
+                    System.out.printf("You have $%.2f of remaining balance. \n", Accounting.getCustomerMoney());
+                    selected.stock--;
+                } else {
+                    System.out.println("You do not have enough available balance.");
+                }
+            } else if (selected.stock == 0) {
+                System.out.printf("Product %s %s is out of stock. \n",selected.slotLocation, selected.productName);
+            }
         }
     }
     public void printInventory(){

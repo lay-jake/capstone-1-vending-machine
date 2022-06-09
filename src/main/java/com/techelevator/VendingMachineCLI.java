@@ -37,26 +37,34 @@ public class VendingMachineCLI {
 			}
 		}
 	}
-	public void purchaseMenuOptions(){
-		System.out.println();
-		System.out.printf("%s%.2f","Current Money Provided: $",Accounting.getCustomerMoney());
-		System.out.println();
-		String choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTIONS);
-
-		if (choice.equals(PURCHASE_MENU_FEED)){
-			Scanner userFeed = new Scanner(System.in);
-			System.out.print("Please feed in money: ");
-			String [] feedArray = userFeed.nextLine().split(" ");
+	public void purchaseMenuOptions() {
+		boolean isPurchasing = true;
+		while (isPurchasing) {
 			System.out.println();
-			for (String s : feedArray) {
-				Accounting.feedMoney(Integer.parseInt(s));
+			System.out.printf("%s%.2f", "Current Money Provided: $", Accounting.getCustomerMoney());
+			System.out.println();
+			String choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTIONS);
+
+			if (choice.equals(PURCHASE_MENU_FEED)) {
+				Scanner userFeed = new Scanner(System.in);
+				System.out.print("Please feed in money: ");
+				String[] feedArray = userFeed.nextLine().split(" ");
+				System.out.println();
+				for (String s : feedArray) {
+					Accounting.feedMoney(Integer.parseInt(s));
+				}
+			} else if (choice.equals(PURCHASE_MENU_SELECT)) {
+				stock.printInventory();
+				Scanner userFeed = new Scanner(System.in);
+				Inventory.getItem(userFeed.nextLine().trim().toUpperCase());
+			} else if (choice.equals(PURCHASE_MENU_FIN)){
+				isPurchasing=false;
+				int[] change = Accounting.giveChange();
+					System.out.printf("Your change is %d Quarters, %d Dimes, %d Nickles, and %d pennies. \n",change[0],change[1],change[2],change[3]);
+				}
 			}
-		} else if (choice.equals(PURCHASE_MENU_SELECT)){
-			stock.printInventory();
-			Scanner userFeed = new Scanner(System.in);
-			Inventory.getItem(userFeed.nextLine().trim().toUpperCase());
 		}
-	}
+
 
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);

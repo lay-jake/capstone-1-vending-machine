@@ -1,6 +1,6 @@
 package com.techelevator.view;
 
-public abstract class Item implements Purchasable {
+public abstract class Item {
     public static String [] itemTypes = {"Candy","Drink","Gum","Chip"};
     public Item(String slotLocation, String productName, Double price, int stock) {
         this.slotLocation = slotLocation;
