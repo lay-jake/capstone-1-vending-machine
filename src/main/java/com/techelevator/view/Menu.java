@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class Menu {
 
-	private PrintWriter out;
-	private Scanner in;
+	private final PrintWriter out;
+	private final Scanner in;
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
@@ -46,6 +46,9 @@ public class Menu {
 	private void displayMenuOptions(Object[] options) {
 		out.println();
 		for (int i = 0; i < options.length; i++) {
+			if (options[i].toString().equals("")){
+				break;
+			}
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);
 		}

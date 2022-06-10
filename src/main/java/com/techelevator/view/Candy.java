@@ -6,10 +6,13 @@ public class Candy extends Item {
     }
 
     @Override
+
+    //inherited from super, defines the output for purchase confirmation.
     public void purchaseConfirmation(){
         System.out.println("Munch Munch, Yum!");
     }
     @Override
+    //getter for name
     public String getName(){
         return "Candy";
     }
