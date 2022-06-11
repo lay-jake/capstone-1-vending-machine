@@ -15,7 +15,7 @@ public class Inventory {
     //list of inventory items in the machine.
     private static final List<Item> inventory = new ArrayList<>();
     public Inventory() {
-        //generating inventory based on csv file in memory.
+        //generating inventory based on csv file in data folder.
         File file = new File("vendingmachine.csv");
         try(Scanner read = new Scanner(file)){
         while (read.hasNext()){
@@ -29,6 +29,7 @@ public class Inventory {
         }
     }
     public static Item getInvItem(String s){
+        //getter for the Item object in the Inventory list checks to see if the product name matches and returns that item.
         for (Item item : inventory) {
             if (s.equals(item.productName)) {
                 return item;

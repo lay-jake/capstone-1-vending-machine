@@ -2,8 +2,10 @@ package com.techelevator;
 
 import com.techelevator.view.Accounting;
 import com.techelevator.view.Inventory;
+import com.techelevator.view.Item;
 import com.techelevator.view.Menu;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachineCLI {
@@ -41,7 +43,8 @@ public class VendingMachineCLI {
 				//Exit program
 				System.exit(0);
 			} else if (choice.equals(SALES_REPORT)){
-				//some output print for report
+				//output print for report
+				printReport();
 			}
 		}
 	}
@@ -75,14 +78,16 @@ public class VendingMachineCLI {
 				//If customer chooses to purchase item prints menu and prompts for item.
 				stock.printInventory();
 				Scanner userFeed = new Scanner(System.in);
-				//Ignores cases because there are only so many buttons.
+				//Ignore cases because there are only so many buttons.
 				Inventory.getItem(userFeed.nextLine().trim().toUpperCase());
 			} else if (choice.equals(PURCHASE_MENU_FIN)){
 				isPurchasing=false;
 				//sends back to main menu and prints change
 				int[] change = Accounting.giveChange();
 					System.out.printf("Your change is %d Quarters, %d Dimes, %d Nickles, and %d pennies. \n",change[0],change[1],change[2],change[3]);
+					//sets first purchase back to true since it will be first purchase for new customer.
 					Accounting.setIsFirstPurchase(true);
+					//sets first customer to false since if another purchase is made it will be a second customer
 					Accounting.setIsFirstCustomer(false);
 				}
 			}
@@ -94,4 +99,14 @@ public class VendingMachineCLI {
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
+	public static void printReport(){
+		//Method to print report in hidden 4th option
+		//Iterates through map of sales initialized at boot
+		Map<String,Integer> report = Accounting.getLogRecord();
+		for (String s : Accounting.getLogRecord().keySet()) {
+			System.out.printf("%-20s%-2s%d\r\n",s,"|",report.get(s));
+		}
+		System.out.printf("\r\n%s%.2f\r\n","Total Money Made: $",Accounting.getTotalSales());
+	}
 }
+
