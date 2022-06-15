@@ -46,8 +46,8 @@ public class Menu {
 	private void displayMenuOptions(Object[] options) {
 		out.println();
 		for (int i = 0; i < options.length; i++) {
-			if (options[i].toString().equals("")){
-				break;
+			if (options[i].toString().equals("") || options[i].toString().equals(" ")){
+				continue;
 			}
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);

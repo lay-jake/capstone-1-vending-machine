@@ -1,5 +1,7 @@
 package com.techelevator.view;
 
+import java.awt.image.BufferedImage;
+
 public abstract class Item {
     //setting array of available item types
     public static String [] itemTypes = {"Candy","Drink","Gum","Chip"};
@@ -31,5 +33,6 @@ public abstract class Item {
     private int stock;
     //abstract classes to be inherited by children
     abstract void purchaseConfirmation();
-    abstract String getName();
+    public abstract String getName();
+    public abstract BufferedImage getImage();
 }

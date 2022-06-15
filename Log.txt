@@ -1,3 +1,18 @@
 6/15/22, 3:22 PM, FEED MONEY:          $10.00  $10.00 
 6/15/22, 3:22 PM, Grain Waves A3       $10.00  $7.25 
 6/15/22, 3:22 PM, GIVE CHANGE:         $7.25  $0.00 
+6/15/22, 4:16 PM, FEED MONEY:          $15.00  $15.00 
+6/15/22, 4:16 PM, Little League Chew D2 $15.00  $14.05 
+6/15/22, 4:17 PM, GIVE CHANGE:         $14.05  $0.00 
+6/15/22, 4:28 PM, FEED MONEY:          $10.00  $10.00 
+6/15/22, 4:28 PM, Chiclets D3          $10.00  $9.25 
+6/15/22, 4:28 PM, U-Chews D1           $9.25  $8.40 
+6/15/22, 4:28 PM, GIVE CHANGE:         $8.40  $0.00 
+6/15/22, 4:31 PM, FEED MONEY:          $10.00  $10.00 
+6/15/22, 4:31 PM, Little League Chew D2 $10.00  $9.05 
+6/15/22, 4:33 PM, FEED MONEY:          $10.00  $10.00 
+6/15/22, 4:34 PM, Little League Chew D2 $10.00  $9.05 
+6/15/22, 5:00 PM, FEED MONEY:          $10.00  $10.00 
+6/15/22, 5:00 PM, Little League Chew D2 $10.00  $9.05 
+6/15/22, 5:00 PM, Mountain Melter C3   $9.05  $7.55 
+6/15/22, 5:01 PM, Dr. Salt C2          $7.55  $6.05 

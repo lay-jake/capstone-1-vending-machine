@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import com.techelevator.swingImplementation.DisplayFrame;
 import com.techelevator.view.Accounting;
 import com.techelevator.view.Inventory;
 import com.techelevator.view.Item;
@@ -17,7 +18,8 @@ public class VendingMachineCLI {
 	private static final String PURCHASE_MENU_SELECT = "Select Product";
 	private static final String PURCHASE_MENU_FIN = "Finish Transaction";
 	private static final String SALES_REPORT = "";
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_EXIT, SALES_REPORT };
+	private static final String SWING_IMPLEMENTATION = " ";
+	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_EXIT, SALES_REPORT, SWING_IMPLEMENTATION};
 	private static final String[] PURCHASE_OPTIONS = { PURCHASE_MENU_FEED, PURCHASE_MENU_SELECT, PURCHASE_MENU_FIN };
 	private final Menu menu;
 	//Restocks inventory on boot.
@@ -45,6 +47,8 @@ public class VendingMachineCLI {
 			} else if (choice.equals(SALES_REPORT)){
 				//output print for report
 				printReport();
+			} else if (choice.equals(SWING_IMPLEMENTATION)){
+				DisplayFrame frame = new DisplayFrame();
 			}
 		}
 	}
