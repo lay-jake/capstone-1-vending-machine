@@ -5,34 +5,35 @@ import com.techelevator.VendingMachineCLI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Inventory {
     //default restock amount
     private static final int RESTOCK_AMOUNT = 5;
     //list of inventory items in the machine.
-    private static final List<Item> inventory = new ArrayList<>();
+    private static final Map<String, Item> inventory = new TreeMap<>();
+
     public Inventory() {
         //generating inventory based on csv file in data folder.
         File file = new File("vendingmachine.csv");
-        try(Scanner read = new Scanner(file)){
-        while (read.hasNext()){
-            String input = read.nextLine();
-            String [] splitItem = input.split("\\|");
-            //splitting item in file into separate categories//slot/name/type/cost
-            inventory.add(createItem(splitItem));
-        }
-    } catch (FileNotFoundException ex){
+        try (Scanner read = new Scanner(file)) {
+            while (read.hasNext()) {
+                String input = read.nextLine();
+                String[] splitItem = input.split("\\|");
+                //splitting item in file into separate categories//slot/name/type/cost
+                inventory.put(splitItem[0], createItem(splitItem));
+
+            }
+        } catch (FileNotFoundException ex) {
             System.out.println("File not found.");
         }
     }
-    public static Item getInvItem(String s){
+
+    public static Item getInvItem(String s) {
         //getter for the Item object in the Inventory list checks to see if the product name matches and returns that item.
-        for (Item item : inventory) {
-            if (s.equals(item.productName)) {
-                return item;
+        for (String location : inventory.keySet()) {
+           if(Inventory.getInventory().get(location).getProductName().equals(s)){
+               return Inventory.getInventory().get(location);
             }
         }
         return null;
@@ -42,9 +43,9 @@ public class Inventory {
         //default item is null
         Item selected = null;
         //looping through inventory to check if the selected item from customer is found in the list of items
-        for (Item item : inventory) {
-            if (item.slotLocation.equals(slotNumber)) {
-                selected = item;
+        for (String s : inventory.keySet()) {
+            if (s.equals(slotNumber)){
+                selected = Inventory.getInventory().get(s);
             }
         }
         //if item was not found, selected remains null and prompts invalid selection.
@@ -52,50 +53,63 @@ public class Inventory {
             System.out.println("Invalid Selection.");
         } else {
             //if item was found, verifies stock is available
-            if (selected.stock > 0) {
+            if (selected.getStock() > 0) {
                 //if item is available checks to see if customer can afford it.
-                if(selected.price <= Accounting.getCustomerMoney()) {
+                if (selected.getPrice() <= Accounting.getCustomerMoney()) {
                     //Dispenses item, removes stock, removes funds from balance, prints all to console.
                     Accounting.purchaseItem(selected);
-                    System.out.printf("Dispensing %s for $%.2f ... \r\n", selected.productName, selected.price);
+                    System.out.printf("Dispensing %s for $%.2f ... \r\n", selected.getProductName(), selected.getPrice());
                     selected.purchaseConfirmation();
                     System.out.printf("You have $%.2f of remaining balance. \r\n", Accounting.getCustomerMoney());
-                    selected.stock--;
+                    selected.lowerStock();
                 } else {
                     //prompt if not enough funds.
                     System.out.println("You do not have enough available balance.");
                 }
-            } else if (selected.stock == 0) {
+            } else if (selected.getStock() == 0) {
                 //prompt if out of stock and its name/location so customer can verify they input correctly.
-                System.out.printf("Product %s %s is out of stock. \n",selected.slotLocation, selected.productName);
+                System.out.printf("Product %s %s is out of stock. \n", getSlotLocation(selected.getProductName()), selected.getProductName());
             }
         }
     }
-    public void printInventory(){
+
+    public static void printInventory() {
         //loops through inventory, formats output and displays to user
-        System.out.printf("%-4s%-8s%-19s%s\n","#","Type","Product","Price");
+        System.out.printf("%-4s%-8s%-19s%s\n", "#", "Type", "Product", "Price");
         System.out.printf("------------------------------------\n");
-        for (Item item : inventory) {
-            System.out.printf("%-4s%-8s%-20s%.2f\n",item.slotLocation,item.getName(), item.productName,item.price);
+        for (String s : inventory.keySet()) {
+            System.out.printf("%-4s%-8s%-20s%.2f\n", s, inventory.get(s).getName(), inventory.get(s).getProductName(), inventory.get(s).getPrice());
         }
     }
-    public Item createItem(String [] inputItem){
+
+    public Item createItem(String[] inputItem) {
         //takes item array that was split from reading the CSV, checks the item type and creates an item, matching that item type.
         //if no item is found, returns null..
         for (int i = 0; i < Item.itemTypes.length; i++) {
-            switch (inputItem[3]){
+            switch (inputItem[3]) {
                 case "Candy":
-                   return new Candy(inputItem[0],inputItem[1],Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
+                    return new Candy(inputItem[1], Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
                 case "Chip":
-                    return new Chip(inputItem[0],inputItem[1],Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
+                    return new Chip(inputItem[1], Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
                 case "Drink":
-                    return new Drink(inputItem[0],inputItem[1],Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
+                    return new Drink(inputItem[1], Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
                 case "Gum":
-                    return new Gum(inputItem[0],inputItem[1],Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
+                    return new Gum(inputItem[1], Double.parseDouble(inputItem[2]), RESTOCK_AMOUNT);
+            }
         }
-        } return null;
-        }
-    public static List<Item> getInventory(){
+        return null;
+    }
+
+    public static Map<String,Item> getInventory() {
         return inventory;
+    }
+
+    public static String getSlotLocation(String item) {
+        for (String s : inventory.keySet()) {
+            if (inventory.get(s).getProductName().equals(item)) {
+                return s;
+            }
+        }
+        return null;
     }
 }

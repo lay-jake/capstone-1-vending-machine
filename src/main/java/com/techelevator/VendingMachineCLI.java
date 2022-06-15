@@ -87,8 +87,6 @@ public class VendingMachineCLI {
 					System.out.printf("Your change is %d Quarters, %d Dimes, %d Nickles, and %d pennies. \n",change[0],change[1],change[2],change[3]);
 					//sets first purchase back to true since it will be first purchase for new customer.
 					Accounting.setIsFirstPurchase(true);
-					//sets first customer to false since if another purchase is made it will be a second customer
-					Accounting.setIsFirstCustomer(false);
 				}
 			}
 		}

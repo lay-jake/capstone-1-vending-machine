@@ -23,7 +23,6 @@ public class Accounting {
     private static PrintWriter salesLogger;
     private static Map<String, Integer> logRecord = new HashMap<>();
     private static boolean isFirstPurchase = true;
-    private static boolean isFirstCustomer = true;
     private static double totalSales =0;
 
     public static void setIsFirstPurchase(boolean isFirstPurchase) {
@@ -34,17 +33,13 @@ public class Accounting {
         return logRecord;
     }
 
-    public static void setIsFirstCustomer(boolean isFirstCustomer) {
-        Accounting.isFirstCustomer = isFirstCustomer;
-    }
-
     public static double getTotalSales() {
         //Update totalSales before printing
         //Reason for this is it may not yet be stored in totalSales
         //if a customer hasn't purchased anything yet
         //so we recalc to provide the most up to date value.
         for (String s : logRecord.keySet()) {
-            totalSales += (logRecord.get(s) * Inventory.getInvItem(s).price);
+            totalSales += (logRecord.get(s) * Inventory.getInvItem(s).getPrice());
         }
         return totalSales;
     }
@@ -61,9 +56,9 @@ public class Accounting {
 
     public static void purchaseItem(Item item) {
         //subtracts money from balance, records the before and after balance to the log, as well as what item and slot was purchased
-        customerMoney -= item.price;
+        customerMoney -= item.getPrice();
         saleslog(item);
-        log(item.productName + " " + item.slotLocation, (customerMoney + item.price), customerMoney);
+        log(item.getProductName() + " " + Inventory.getSlotLocation(item.getProductName()), (customerMoney + item.getPrice()), customerMoney);
     }
 
     public static int[] giveChange() {
@@ -105,17 +100,17 @@ public class Accounting {
 
         //If sales log exists read log, else make new hash with default values.
         isFirstPurchase = false;
-        int oldNum = logRecord.get(item.productName);
-        logRecord.put(item.productName, ++oldNum);
+        int oldNum = logRecord.get(item.getProductName());
+        logRecord.put(item.getProductName(), ++oldNum);
     }
 
     public static void initializeReport(){
         //checks to see if this is the first purchase, if not will not initialize logs as they are updated/correct in mem already
         if (isFirstPurchase) {
             File log = new File("salesLog.txt");
-            //check to see if the salesLog file exists, if it doesnt we create a new
+            //check to see if the salesLog file exists, if it doesn't we create a new
             //default one and a new hash with all prod names and 0's for sales values.
-            if (!log.exists()) {
+            if (!log.exists() || isSalesLogBroke(log)) {
                 logRecord = createSalesLog(logRecord);
             } else {
                 //if log exists, load log into a hashmap logRecord.
@@ -139,12 +134,7 @@ public class Accounting {
 
         try {
             File log = new File("salesLog.txt");
-            //if its not the first customer, close the sales logger to write pending changes to log;
-            //sets salesLogger to null so it will reinitialize
-            if(!isFirstCustomer){
-                salesLogger.close();
-                salesLogger = null;
-            }
+
             if (salesLogger == null) {
                 salesLogger = new PrintWriter(new FileOutputStream(log,false));
             }
@@ -153,12 +143,13 @@ public class Accounting {
             for (String s : logRecord.keySet()) {
                 salesLogger.write(s + "|" + logRecord.get(s)+"\r\n");
                 //updates total sales by getting the amount sold, and then the price of the current item s in the hashmap
-                totalSales += (logRecord.get(s) * Inventory.getInvItem(s).price);
+                totalSales += (logRecord.get(s) * Inventory.getInvItem(s).getPrice());
                 salesLogger.flush();
             }
             //record total sales to log
             salesLogger.printf("Total Money Made: $%.2f",totalSales);
             salesLogger.flush();
+            salesLogger.close();
         }catch (FileNotFoundException ex){
             System.out.println("File not found");
         }
@@ -167,9 +158,26 @@ public class Accounting {
 
     public static Map<String,Integer> createSalesLog (Map<String,Integer> logRecord){
        //create a new hashmap for the log with default values of 0;
-            for (Item item : Inventory.getInventory()) {
-                logRecord.put(item.productName, 0);
-            }
+
+        for (String s : Inventory.getInventory().keySet()) {
+            logRecord.put(Inventory.getInventory().get(s).getProductName(), 0);
+        }
         return logRecord;
+    }
+
+    public static void setLogRecord(Inventory inv) {
+        Map <String,Integer> newLog = new HashMap<>();
+        for (String s : inv.getInventory().keySet()) {
+            newLog.put(inv.getInventory().get(s).getProductName(), 0);
+        }
+        Accounting.logRecord = newLog;
+    }
+    public static Boolean isSalesLogBroke(File log){
+        try (Scanner read = new Scanner(log)){
+            return read.nextLine().contains("Total");
+        }catch (FileNotFoundException ex) {
+            System.out.println("File not found");
+        }
+        return false;
     }
 }

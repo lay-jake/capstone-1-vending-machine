@@ -1,8 +1,8 @@
 package com.techelevator.view;
 
 public class Drink extends Item {
-    public Drink(String slotLocation, String productName, Double price, int stock) {
-        super(slotLocation, productName, price, stock);
+    public Drink(String productName, Double price, int stock) {
+        super(productName, price, stock);
     }
     @Override
     //inherited from super, defines the output for purchase confirmation.
