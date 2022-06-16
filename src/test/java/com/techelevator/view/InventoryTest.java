@@ -7,16 +7,15 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.SQLOutput;
 
 public class InventoryTest {
     private Inventory testInv;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    //makes list
-    //adds to list
-    //get an correct item from list
+
     @Before
-    public void clearChange(){
+    public void initializeInventoryTestItems(){
+        setUp();
+        makeInv();
         Accounting.giveChange();
         try{
             outputStreamCaptor.flush();
@@ -25,11 +24,10 @@ public class InventoryTest {
             System.out.println("File not found");
         }
     }
-    @Before
+
     public void makeInv() {
         testInv = new Inventory();
     }
-    @Before
     public void setUp(){
         System.setOut( new PrintStream(outputStreamCaptor));
     }

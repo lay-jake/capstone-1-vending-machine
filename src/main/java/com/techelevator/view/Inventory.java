@@ -10,7 +10,9 @@ import java.util.*;
 public class Inventory {
     //default restock amount
     private static final int RESTOCK_AMOUNT = 5;
-    //list of inventory items in the machine.
+    //Tree map of items in the inventory, we use tree map instead of List/Hashmap because
+    //tree map is ordered therefore it will print in the correct order, we don't use list
+    //So we can associate the item to the slot location.
     private static final Map<String, Item> inventory = new TreeMap<>();
     public final String INVENTORY_PATH = "vendingmachine.csv";
 
@@ -59,7 +61,7 @@ public class Inventory {
                 if (selected.getPrice() <= Accounting.getCustomerMoney()) {
                     //Dispenses item, removes stock, removes funds from balance, prints all to console.
                     Accounting.purchaseItem(selected);
-                    System.out.printf("Dispensing %s for $%.2f ... \r\n", selected.getProductName(), selected.getPrice());
+                    System.out.printf("\r\nDispensing %s for $%.2f ... \r\n", selected.getProductName(), selected.getPrice());
                     selected.purchaseConfirmation();
                     System.out.printf("You have $%.2f of remaining balance. \r\n", Accounting.getCustomerMoney());
                     selected.lowerStock();
@@ -74,7 +76,7 @@ public class Inventory {
         }
     }
 
-    public static void printInventory() {
+    public void printInventory() {
         //loops through inventory, formats output and displays to user
         System.out.printf("%-4s%-8s%-19s%s\n", "#", "Type", "Product", "Price");
         System.out.printf("------------------------------------\n");

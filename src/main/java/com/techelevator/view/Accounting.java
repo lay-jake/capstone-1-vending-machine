@@ -71,6 +71,8 @@ public class Accounting {
         int retDimes = (int) (((customerMoney * DOLLAR_CONVERSION) % QUARTER) / DIME);
         int retNickle = (int) (((customerMoney * DOLLAR_CONVERSION) % DIME) / NICKLE);
         int retPennies = (int) ((customerMoney * DOLLAR_CONVERSION) % NICKLE);
+
+
         //records the change to the sales log, transaction log and sets new balance to 0;
         log("GIVE CHANGE: ", customerMoney, 0);
         customerMoney = 0;
@@ -90,10 +92,13 @@ public class Accounting {
 
             //setting string of local time to write to log.
             String accessed = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(localDateTime);
+
             //formatted input for log.
             logger.printf("%s, %-20s $%.2f  $%.2f \n", accessed, action, moneyMovement, moneyEnd);
+
             //flushing remaining/stray info in log.
             logger.flush();
+
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }

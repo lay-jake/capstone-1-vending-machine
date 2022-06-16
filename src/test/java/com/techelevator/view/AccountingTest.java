@@ -153,7 +153,4 @@ public class AccountingTest {
             System.out.println("File not found");
         }
     }
-    //feed money
-    //purchase item
-    //give change
 }

@@ -6,6 +6,7 @@ import com.techelevator.view.Inventory;
 import com.techelevator.view.Item;
 import com.techelevator.view.Menu;
 
+import java.sql.SQLOutput;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,7 +32,7 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
-		//On boot will run the specified method which checks if a sales log exhists, if it doesn't
+		//On boot will run the specified method which checks if a sales log exists, if it doesn't
 		//then it will construct a default one with no values.
 		Accounting.initializeReport();
 		while (true) {
@@ -40,6 +41,7 @@ public class VendingMachineCLI {
 
 			//Could be a switch case, but default if/else causes loop to main menu
 			//after a transaction is completed which is expected behaviour
+			//so we do not use a switch because it would be more work.
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				//Calls the printInventory Method to prick the inventory.
 				stock.printInventory();
@@ -92,20 +94,22 @@ public class VendingMachineCLI {
 				stock.printInventory();
 				Scanner userFeed = new Scanner(System.in);
 				//Ignore cases because there are only so many buttons.
+				System.out.print("\r\nPlease enter your selection: ");
 				Inventory.getItem(userFeed.nextLine().trim().toUpperCase());
 			} else if (choice.equals(PURCHASE_MENU_FIN)){
 				isPurchasing=false;
 				//sends back to main menu and prints change
-				//giveChange returns array as quarters/dimes/nickles/pennys
+				//giveChange returns array as quarters/dimes/nickles/pennies
 				int[] change = Accounting.giveChange();
-				int quarterCount = change [0];
-				int nickleCount = change [2];
+				int quarterCount = change[0];
 				int dimeCount = change[1];
+				int nickleCount = change[2];
 				int pennyCount = change[3];
-
-					System.out.printf("Your change is %d Quarters, %d Dimes, %d Nickles, and %d pennies. \n",quarterCount,dimeCount,nickleCount,pennyCount);
-					//sets first purchase back to true since it will be first purchase for new customer.
-					Accounting.setIsFirstPurchase(true);
+				//call to printFormattedChange method, which will take the information and try to print it in a
+				//formatted even block with equal spacing.
+				printFormattedChange(quarterCount,dimeCount,nickleCount,pennyCount);
+				//sets first purchase back to true since it will be first purchase for new customer.
+				Accounting.setIsFirstPurchase(true);
 				}
 			}
 		}
@@ -126,6 +130,47 @@ public class VendingMachineCLI {
 			System.out.printf("%-20s%-2s%d\r\n",s,"|",report.get(s));
 		}
 		System.out.printf("\r\n%s%.2f\r\n","Total Money Made: $",Accounting.getTotalSales());
+	}
+	public static void printFormattedChange(int quarters, int dimes,int nickles, int pennies){
+		//Final variable for the window size
+		//center is 15 units, longest line we want is 36 units.
+		final int centerValue = 15;
+		final int totalStringLength = 36;
+
+		//Getting the lengths for each number value so we can indent the line to keep it center, passing false since we want to control the indent in the method.
+		int lengthQuarter = centerValue - lineLength(quarters,false,true);
+		int lengthDimes = (centerValue + 1) - lineLength(dimes,false,false); // adding 1 to center value account for Dimes being a shorter word then rest
+		int lengthNickles = centerValue - lineLength(nickles,false,false);
+		int lengthPennies = centerValue - lineLength(pennies,false,false);
+
+		final String dashedLine ="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+		System.out.println(dashedLine);
+		System.out.printf("*%11s%s%12s","","Your change is","*\r\n");
+
+		//Printing to console the information; spacing for lengths above, and then calculating where the ending * needs to be placed using lineLength and passing true
+		System.out.printf("*%" + lengthQuarter + "s%d Quarters %" + (totalStringLength - centerValue - ((lineLength(quarters,true,true))/2) - 10) +"s"+"\r\n","",quarters,"*");
+		System.out.printf("*%" + lengthDimes + "s%d Dimes %" + (totalStringLength - centerValue - (lineLength(dimes,true,false)/2) - 9) +"s"+"\r\n","",dimes,"*"); // accounting for the 1 to center value from length
+		System.out.printf("*%" + lengthNickles + "s%d Nickles %" + (totalStringLength - centerValue - (lineLength(nickles,true,false)/2) - 10) +"s"+"\r\n","",nickles,"*");
+		System.out.printf("*%" + lengthPennies + "s%d Pennies %" + (totalStringLength - centerValue - (lineLength(pennies,true,false)/2) - 10) +"s"+"\r\n","",pennies,"*");
+		System.out.println(dashedLine);
+	}
+	public static int lineLength(int currency, boolean trueLength,Boolean isQuarter){
+		//if trueLength, we just return the length of the String of digits, else we space either its length, or 6/4 depending on length.
+		// if it is a quarter, and 1 in length (0-9 quarters) int division causes weird spacing that doesn't happen with the other currencies
+		// So we return 2 to get rid of the weird spacing if it is 0 or 1 and is a quarter only.
+		int length = String.valueOf(currency).length();
+		if ( length >8 && !trueLength){
+			return 6;
+		}
+		else if (length > 4 && !trueLength){
+			return  4;
+		}
+		else{
+			if(isQuarter && trueLength && length < 2){
+				return 2;
+			}
+			return length;
+		}
 	}
 }
 
