@@ -6,10 +6,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class Chip extends Item {
-//    private final String POTATO_CRISPS_ICON;
-//    private final String STACKERS_ICON;
-//    private final String GRAIN_WAVES_ICON;
-//    private final String CLOUD_POPCORN_ICON;
+    private final String POTATO_CRISPS_ICON = "images/Potato Crisps.png";
+    private final String STACKERS_ICON = "images/Stackers.png";
+    private final String GRAIN_WAVES_ICON = "images/Grain Waves.png";
+    private final String CLOUD_POPCORN_ICON = "images/CLOUD POPCORN.png";
     private final String DEFAULT_ICON ="images/CHIP.png";
     public Chip(String productName, Double price, int stock) {
         super(productName, price, stock);
@@ -31,7 +31,22 @@ public class Chip extends Item {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(new File(DEFAULT_ICON));
+            switch (this.getProductName()){
+                case "Stackers":
+                    image = ImageIO.read(new File(STACKERS_ICON));
+                    break;
+                case "Potato Crisps":
+                    image = ImageIO.read(new File(POTATO_CRISPS_ICON));
+                    break;
+                case "Grain Waves":
+                    image = ImageIO.read(new File(GRAIN_WAVES_ICON));
+                    break;
+                case "Cloud Popcorn":
+                    image = ImageIO.read(new File(CLOUD_POPCORN_ICON));
+                    break;
+                default:
+                    image = ImageIO.read(new File(DEFAULT_ICON));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

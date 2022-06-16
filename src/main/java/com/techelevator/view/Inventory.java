@@ -1,6 +1,7 @@
 package com.techelevator.view;
 
 import com.techelevator.VendingMachineCLI;
+import com.techelevator.swingImplementation.DisplayFrame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +46,8 @@ public class Inventory {
     public static void getItem(String slotNumber) {
         //default item is null
         Item selected = null;
+
+        DisplayFrame.vendingPanel.repaint();
         //looping through inventory to check if the selected item from customer is found in the list of items
         for (String s : inventory.keySet()) {
             if (s.equals(slotNumber)){

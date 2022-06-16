@@ -31,36 +31,36 @@ public class VendingMachine {
         x = 15;
         y = 15;
 
-        //draw back panel of vending machine
-        g.setColor(Color.YELLOW.darker());
-        g.fillRoundRect(x, y, width, height, 20, 20);
+//        //draw back panel of vending machine
+//        g.setColor(Color.YELLOW.darker());
+//        g.fillRoundRect(x, y, width, height, 20, 20);
 
-        //draw stripes
-        g.setColor(Color.BLACK.brighter());
-        for(int stripeY = y + 85; stripeY < height - 100; stripeY += 20){
-            g.fillRect(x, stripeY, width, height/100);
-        }
+//        //draw stripes
+//        g.setColor(Color.BLACK.brighter());
+//        for(int stripeY = y + 85; stripeY < height - 100; stripeY += 20){
+//            g.fillRect(x, stripeY, width, height/100);
+//        }
 
-        //draw VENIDNG - O - MATIC at top
-        if(System.nanoTime()%4_000_000_000L < 2_000_000_000)
-            g.setColor(Color.YELLOW);
-        else
-            g.setColor(Color.GREEN);
+//        //draw VENIDNG - O - MATIC at top
+//        if(System.nanoTime()%4_000_000_000L < 2_000_000_000)
+//            g.setColor(Color.YELLOW);
+//        else
+//            g.setColor(Color.GREEN);
+//
+//        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 27));
+//        g.drawString("V E N D I N G - O - M A T I C", x + 42, y + 50);
 
-        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 27));
-        g.drawString("V E N D I N G - O - M A T I C", x + 42, y + 50);
+//        //Draw Item Dispensing holder part
+//        g.setColor(Color.BLACK.brighter());
+//        g.fillRoundRect(x + 35, y + 630, 375, 85, 10, 10 );
 
-        //Draw Item Dispensing holder part
-        g.setColor(Color.BLACK.brighter());
-        g.fillRoundRect(x + 35, y + 630, 375, 85, 10, 10 );
+//        //Draw Selection Panel
+//        g.setColor(Color.lightGray);
+//        g.fillRect(x + 430, 130, 125, 465);
 
-        //Draw Selection Panel
-        g.setColor(Color.lightGray);
-        g.fillRect(x + 430, 130, 125, 465);
-
-        //Draw display panel
-        g.setColor(Color.BLACK);
-        g.fillRect(x + 440, 140, 105, 50);
+//        //Draw display panel
+//        g.setColor(Color.BLACK);
+//        g.fillRect(x + 440, 140, 105, 50);
 
         //Draw Slots
         for(Slot slot : Slot.slotList){

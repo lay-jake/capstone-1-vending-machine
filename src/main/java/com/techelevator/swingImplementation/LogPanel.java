@@ -41,6 +41,11 @@ public class LogPanel extends JPanel{
         Thread fileWatchThread = new Thread(){
             public void run(){
                 while(true){
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if(machineLog.lastModified() != machineLogLastModified){
                         remove(machineLogScrollPane);
                         machineLogLastModified = machineLog.lastModified();
