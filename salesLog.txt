@@ -1,6 +1,6 @@
 Stackers|0
 Cowtales|0
-Cola|0
+Cola|1
 Heavy|0
 Cloud Popcorn|0
 Dr. Salt|0
@@ -9,9 +9,9 @@ Wonka Bar|0
 Crunchie|0
 Moonpie|0
 Potato Crisps|1
-Triplemint|0
+Triplemint|1
 Mountain Melter|0
 U-Chews|1
 Grain Waves|1
-Chiclets|2
-Total Money Made: $9.10
+Chiclets|3
+Total Money Made: $11.85
