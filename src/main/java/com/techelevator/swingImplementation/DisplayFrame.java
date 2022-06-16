@@ -11,7 +11,7 @@ public class DisplayFrame extends JFrame {
 
         setPreferredSize(new Dimension(1375, 800));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         setUp();
         createUpdateThread();
@@ -36,9 +36,16 @@ public class DisplayFrame extends JFrame {
         Thread thread = new Thread(){
             public void run(){
                 while(true){
-                    if(System.nanoTime()%2_000_000_000 == 0){
-                        vendingPanel.repaint();
+                    try {
+                        sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+                    System.out.println("REPAINT");
+                    vendingPanel.repaint();
+//                    if(System.nanoTime()%2_000_000_000 == 0){
+//                        vendingPanel.repaint();
+//                    }
                 }
             }
         };
