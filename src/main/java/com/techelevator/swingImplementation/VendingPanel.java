@@ -12,8 +12,10 @@ public class VendingPanel extends JPanel {
     private VendingMachine vendingMachine;
 
     public VendingPanel(){
+        //SET UP VENDING PANEL
         setPreferredSize(new Dimension(width, 0));
 
+        //CREATE VENDING MACHINE INSTANCE
         vendingMachine = new VendingMachine();
     }
 
