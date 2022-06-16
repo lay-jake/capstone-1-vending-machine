@@ -7,6 +7,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class Candy extends Item {
+//    private final String MOONPIE_ICON;
+//    private final String COWTALES_ICON;
+//    private final String WONKA_BAR_ICON;
+//    private final String CRUNCHIE_ICON;
+    private final String DEFAULT_ICON ="images/CANDY.png";
     public Candy(String productName, Double price, int stock) {
         super(productName, price, stock);
     }
@@ -22,26 +27,16 @@ public class Candy extends Item {
     public String getName(){
         return "Candy";
     }
-
+    //Method to set the image for our attempt at Swing implementation it will check the Product name against
+    //the switch case and apply the appropriate icon to each item.
+    @Override
     public BufferedImage getImage(){
         BufferedImage image = null;
 
         try {
             switch (this.getProductName()){
-                case "Big League":
-                    image = ImageIO.read(new File("images/Big League.png"));
-                    break;
-                case "Chiclets":
-                    image = ImageIO.read(new File("images/Chiclets.png"));
-                    break;
-                case "Doubletree":
-                    image = ImageIO.read(new File("images/Doubletree.png"));
-                    break;
-                case "U-Chew":
-                    image = ImageIO.read(new File("images/U-Chew.png"));
-                    break;
                 default:
-                    image = ImageIO.read(new File("images/CANDY.png"));
+                    image = ImageIO.read(new File(DEFAULT_ICON));
             }
 
         } catch (IOException e) {

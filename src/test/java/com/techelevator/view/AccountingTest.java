@@ -47,7 +47,8 @@ public class AccountingTest {
         } catch (IOException ex) {
             System.out.println("File not found");
         }
-        //initialize inventory, sales log and clear money
+        //initialize inventory, sales log and clear money - created separate methods
+        //because they need to run before each method, but in a specific order.
         makeInv();
         createSalesLog();
         clearMoneyCache();

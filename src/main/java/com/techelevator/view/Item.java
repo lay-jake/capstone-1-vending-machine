@@ -28,10 +28,10 @@ public abstract class Item {
         this.stock = stock;
     }
 
-    private String productName;
-    private Double price;
+    private final String productName;
+    private final Double price;
     private int stock;
-    //abstract classes to be inherited by children
+    //abstract methods to be inherited by children
     abstract void purchaseConfirmation();
     public abstract String getName();
     public abstract BufferedImage getImage();

@@ -12,10 +12,11 @@ public class Inventory {
     private static final int RESTOCK_AMOUNT = 5;
     //list of inventory items in the machine.
     private static final Map<String, Item> inventory = new TreeMap<>();
+    public final String INVENTORY_PATH = "vendingmachine.csv";
 
     public Inventory() {
         //generating inventory based on csv file in data folder.
-        File file = new File("vendingmachine.csv");
+        File file = new File(INVENTORY_PATH);
         try (Scanner read = new Scanner(file)) {
             while (read.hasNext()) {
                 String input = read.nextLine();
@@ -105,6 +106,8 @@ public class Inventory {
     }
 
     public static String getSlotLocation(String item) {
+        //Method to iterate through the inventory map to find the matching Item's product name
+        //Returns the key which is the string for the Slot IE A1 B2 etc
         for (String s : inventory.keySet()) {
             if (inventory.get(s).getProductName().equals(item)) {
                 return s;
