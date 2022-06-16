@@ -1,5 +1,8 @@
 package com.techelevator.swingImplementation;
 
+import com.techelevator.view.Accounting;
+import com.techelevator.view.Inventory;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,8 +12,10 @@ public class VendingPanel extends JPanel {
     private VendingMachine vendingMachine;
 
     public VendingPanel(){
+        //SET UP VENDING PANEL
         setPreferredSize(new Dimension(width, 0));
 
+        //CREATE VENDING MACHINE INSTANCE
         vendingMachine = new VendingMachine();
     }
 
@@ -27,7 +32,9 @@ public class VendingPanel extends JPanel {
         }
 
 
-        //Draw Vending Machine=
+        //Draw Vending Machine
+        Accounting.feedMoney(300);
+        Inventory.getItem("C4");
         vendingMachine.paintVendingMachine(g2D, getWidth(), getHeight());
     }
 }

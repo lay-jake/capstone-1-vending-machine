@@ -20,10 +20,12 @@ public class Slot{
         this.item = item;
         this.location = loacation;
 
+        //GET COLUMN NUMBER
         columnNumber = Integer.parseInt(location.substring(1)) - 1;
         rowNumber = 0;
         char rowLetter = loacation.charAt(0);
 
+        //GET ROW NUMBER BASED OFF LETTER
         switch (rowLetter){
             case 'A':
                 rowNumber = 0;
@@ -39,6 +41,7 @@ public class Slot{
                 break;
         }
 
+        //ADD SLOT TO SLOTLIST
         slotList.add(this);
     }
 
@@ -47,20 +50,26 @@ public class Slot{
         final int SLOT_SPACING_Y = 130;
         x = 15 + 35 + columnNumber * SLOT_SPACING_X;
         y = 130 + rowNumber * SLOT_SPACING_Y;
+
+        //CREATE BACKGROUND FOR SLOT
         g.setColor(Color.lightGray);
         g.fillRoundRect(x, y, 75, 75, 10, 10);
 
+        //CREATE SLOT LOCATION DISPLAY
         g.setColor(Color.darkGray);
         g.fillRect(x, y + 80, 75, 20);
 
+        //DISPLAY SLOT LOCATION
         g.setColor(Color.GREEN.darker());
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         g.drawString(location, x + 29, y +94);
 
+        //DRAW ALL ITEMS INTO THE SLOT
         drawItems(g);
     }
 
     private void drawItems(Graphics2D g){
+        //DRAWS THE ITEMS INTO THE SLOT
         for(int i = 0; i < item.getStock(); i++){
             if(!(item.getName().equals("Drink")))
                 g.drawImage(item.getImage(), null, x + (10 * i), y + (10 * i));
