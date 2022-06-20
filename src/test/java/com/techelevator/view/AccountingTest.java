@@ -25,28 +25,7 @@ public class AccountingTest {
         // saves the information from Log Text and SalesLog to temp files
         // so that the tests do not overwrite the data.
 
-        try (FileInputStream salesLogRead = new FileInputStream(log);
-                  FileOutputStream salesLogWrite = new FileOutputStream(logSave);
-                  FileInputStream transLogRead = new FileInputStream(tranLog);
-                  FileOutputStream transLogWrite = new FileOutputStream(tranLogSave))
-        {
-            //byte array for 1kb
-            byte[] buffer = new byte[1024];
-            //length of next buffer
-            int length;
-            while ((length = salesLogRead.read(buffer)) > 0) {
-                salesLogWrite.write(buffer, 0, length);
-                salesLogWrite.flush();
-            }
-            salesLogWrite.flush();
-            while ((length = transLogRead.read(buffer)) > 0){
-                transLogWrite.write(buffer,0,length);
-                transLogWrite.flush();
-            }
-            transLogWrite.flush();
-        } catch (IOException ex) {
-            System.out.println("File not found");
-        }
+        saveLogs();
         //initialize inventory, sales log and clear money - created separate methods
         //because they need to run before each method, but in a specific order.
         makeInv();
@@ -55,33 +34,7 @@ public class AccountingTest {
     }
     @After
     public void reloadLogs(){
-        //Initialize 4 streams, 2 read 2 write
-        // saves the information from Log Text and SalesLog to temp files
-        // so that the tests do not overwrite the data.
-        try(FileInputStream salesLogRead = new FileInputStream(logSave);
-            FileOutputStream salesLogWrite = new FileOutputStream(log);
-            FileInputStream transLogRead = new FileInputStream(tranLogSave);
-            FileOutputStream transLogWrite = new FileOutputStream(tranLog))
-        {
-            //byte array for 1kb
-            byte[] buffer = new byte[1024];
-            //length of next buffer
-            int length;
-            while ((length = salesLogRead.read(buffer)) > 0){
-                salesLogWrite.write(buffer,0,length);
-                salesLogWrite.flush();
-            }
-            while ((length = transLogRead.read(buffer)) > 0){
-                transLogWrite.write(buffer,0,length);
-                transLogWrite.flush();
-            }
-            transLogWrite.flush();
-        }catch (IOException ex){
-            System.out.println("File not found");
-        }
-        //deleting the temp files.
-        logSave.delete();
-        tranLogSave.delete();
+     reloadAndDeletLogs();
     }
 
 
@@ -118,6 +71,11 @@ public class AccountingTest {
         Accounting.feedMoney(0);
         Assert.assertEquals(0,Accounting.getCustomerMoney(),0);
         clearMoney();
+
+        Accounting.feedMoney(-10);
+        Assert.assertEquals(0,Accounting.getCustomerMoney(),0);
+        clearMoney();
+
     }
     @Test
     public void doesPurchaseDecreaseBal(){
@@ -127,6 +85,12 @@ public class AccountingTest {
         Inventory.getItem("B1");
         Assert.assertEquals(6.70,Accounting.getCustomerMoney(),0);
         Inventory.getItem("C1");
+        Assert.assertEquals(5.45,Accounting.getCustomerMoney(),0);
+        Inventory.getItem("B5");
+        Assert.assertEquals(5.45,Accounting.getCustomerMoney(),0);
+        Inventory.getItem("");
+        Assert.assertEquals(5.45,Accounting.getCustomerMoney(),0);
+        Inventory.getItem("@$%!");
         Assert.assertEquals(5.45,Accounting.getCustomerMoney(),0);
     }
     @Test
@@ -141,6 +105,10 @@ public class AccountingTest {
         Inventory.getItem("B1");
         Assert.assertTrue(Arrays.equals(new int[]{26,2,0,0},Accounting.giveChange()));
         clearMoney();
+
+        Accounting.feedMoney(0);
+        Assert.assertTrue(Arrays.equals(new int[]{0,0,0,0},Accounting.giveChange()));
+        clearMoney();
     }
 
     public void clearMoney(){
@@ -153,4 +121,62 @@ public class AccountingTest {
             System.out.println("File not found");
         }
     }
+    public void saveLogs(){
+        //Initialize 4 streams, 2 read 2 write
+        // saves the information from Log Text and SalesLog to temp files
+        // so that the tests do not overwrite the data.
+
+        try (FileInputStream salesLogRead = new FileInputStream(log);
+             FileOutputStream salesLogWrite = new FileOutputStream(logSave);
+             FileInputStream transLogRead = new FileInputStream(tranLog);
+             FileOutputStream transLogWrite = new FileOutputStream(tranLogSave))
+        {
+            //byte array for 1kb
+            byte[] buffer = new byte[1024];
+            //length of next buffer
+            int length;
+            while ((length = salesLogRead.read(buffer)) > 0) {
+                salesLogWrite.write(buffer, 0, length);
+                salesLogWrite.flush();
+            }
+            salesLogWrite.flush();
+            while ((length = transLogRead.read(buffer)) > 0){
+                transLogWrite.write(buffer,0,length);
+                transLogWrite.flush();
+            }
+            transLogWrite.flush();
+        } catch (IOException ex) {
+            System.out.println("File not found");
+        }
+    }
+    public void reloadAndDeletLogs(){
+        //Initialize 4 streams, 2 read 2 write
+        // saves the information from Log Text and SalesLog to temp files
+        // so that the tests do not overwrite the data.
+        try(FileInputStream salesLogRead = new FileInputStream(logSave);
+            FileOutputStream salesLogWrite = new FileOutputStream(log);
+            FileInputStream transLogRead = new FileInputStream(tranLogSave);
+            FileOutputStream transLogWrite = new FileOutputStream(tranLog))
+        {
+            //byte array for 1kb
+            byte[] buffer = new byte[1024];
+            //length of next buffer
+            int length;
+            while ((length = salesLogRead.read(buffer)) > 0){
+                salesLogWrite.write(buffer,0,length);
+                salesLogWrite.flush();
+            }
+            while ((length = transLogRead.read(buffer)) > 0){
+                transLogWrite.write(buffer,0,length);
+                transLogWrite.flush();
+            }
+            transLogWrite.flush();
+        }catch (IOException ex){
+            System.out.println("File not found");
+        }
+        //deleting the temp files.
+        logSave.delete();
+        tranLogSave.delete();
+    }
+
 }

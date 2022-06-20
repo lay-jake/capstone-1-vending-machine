@@ -47,7 +47,6 @@ public class Inventory {
         //default item is null
         Item selected = null;
 
-        DisplayFrame.vendingPanel.repaint();
         //looping through inventory to check if the selected item from customer is found in the list of items
         for (String s : inventory.keySet()) {
             if (s.equals(slotNumber)){
@@ -55,7 +54,7 @@ public class Inventory {
             }
         }
         //if item was not found, selected remains null and prompts invalid selection.
-        if (selected == null) {
+        if (selected == null || slotNumber.length() > 2) {
             System.out.println("Invalid Selection.");
         } else {
             //if item was found, verifies stock is available

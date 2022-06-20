@@ -45,6 +45,8 @@ public class Menu {
 
 	private void displayMenuOptions(Object[] options) {
 		out.println();
+		//if the return string is "" or " " (Two hidden options), it will accept as input
+		//but not print to the menu options.
 		for (int i = 0; i < options.length; i++) {
 			if (options[i].toString().equals("") || options[i].toString().equals(" ")){
 				continue;

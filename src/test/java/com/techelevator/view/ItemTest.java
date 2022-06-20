@@ -1,5 +1,6 @@
 package com.techelevator.view;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,9 +10,15 @@ import java.io.PrintStream;
 
 public class ItemTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    AccountingTest test = new AccountingTest();
     @Before
     public void setUp(){
+        test.saveLogs();
         System.setOut( new PrintStream(outputStreamCaptor));
+    }
+    @After
+    public void reloadLogs(){
+        test.reloadAndDeletLogs();
     }
     @Test
     public void gumSholdChew() {
@@ -53,5 +60,20 @@ public class ItemTest {
         Assert.assertEquals("testChip",chip.getProductName());
         chip.purchaseConfirmation();
         Assert.assertEquals("Crunch Crunch, Yum!",outputStreamCaptor.toString().trim());
+    }
+    @Test
+    public void shouldReturnTypeName(){
+        Item chip = new Chip("testChip",2.00,5);
+        Assert.assertEquals("Chip",chip.getName());
+
+        Item drink = new Drink("testDrink",2.00,5);
+        Assert.assertEquals("Drink",drink.getName());
+
+        Item gum = new Gum("testGum",2.00,5);
+        Assert.assertEquals("Gum",gum.getName());
+
+        Item candy = new Candy("testCandy",2.00,5);
+        Assert.assertEquals("Candy",candy.getName());
+
     }
 }
