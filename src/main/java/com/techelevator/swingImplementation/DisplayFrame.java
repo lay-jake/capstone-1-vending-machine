@@ -1,9 +1,13 @@
 package com.techelevator.swingImplementation;
 
+import com.techelevator.view.Accounting;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class DisplayFrame extends JFrame {
+public class DisplayFrame extends JFrame implements MouseListener {
     public static VendingPanel vendingPanel;
     private LogPanel logPanel;
 
@@ -18,6 +22,8 @@ public class DisplayFrame extends JFrame {
         createUpdateThread();
 
         pack();
+
+        addMouseListener(this);
 
         //SET LOCATION TO BE CENTER OF SCREEN, SET VISIBLE
         setLocationRelativeTo(null);
@@ -41,19 +47,48 @@ public class DisplayFrame extends JFrame {
         //THIS THREAD RUNS IN PARALLEL TO THE PROGRAMS AND UPDATES(REPAINTS) THE VENDING PANEL
         Thread thread = new Thread(){
             public void run(){
-//                while(true){
-////                    try {
-////                        sleep(2000);
-////                    } catch (InterruptedException e) {
-////                        e.printStackTrace();
-////                    }
-//
-//                    //vendingPanel.repaint();
-//                    //vendingPanel.updateUI();
-//                }
+                while(true){
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    vendingPanel.repaint();
+                    //vendingPanel.updateUI();
+                }
             }
         };
 
         thread.start();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getX() >= ButtonPanel.changeButtonX && e.getX() <= ButtonPanel.changeButtonX + ButtonPanel.changeButtonWidth + 5
+                && e.getY() >= ButtonPanel.changeButtonY && e.getY() <= ButtonPanel.changeButtonY + (ButtonPanel.changeButtonHeight * 2) + 6){
+            Accounting.giveChange();
+            VendingMachine.soldList.clear();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

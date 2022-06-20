@@ -15,7 +15,7 @@ public class VendingMachine {
     public int width;
     public int height;
 
-    private List<BufferedImage> imageList= new ArrayList<>();
+    public static List<Item> soldList= new ArrayList<>();
 
     public VendingMachine(){
         //Create slots
@@ -67,21 +67,25 @@ public class VendingMachine {
             slot.paint(g);
         }
 
+        ButtonPanel.drawSelection(g);
         //add Sold items to imageList
-        for(Map.Entry<String, Item> entry: Inventory.getInventory().entrySet()){
-            Item item = entry.getValue();
-            for(int i = item.getStock(); i < 5; i++){
-                if(!imageList.contains(item.getImage()))
-                    imageList.add(item.getImage());
-            }
-        }
+//        for(Map.Entry<String, Item> entry: Inventory.getInventory().entrySet()){
+//            Item item = entry.getValue();
+//            for(int i = item.getStock(); i < 5; i++){
+//                if(!imageList.contains(item.getImage()))
+//                    imageList.add(item.getImage());
+//            }
+//        }
 
         //draw imageList sold items
-        for(BufferedImage image : imageList){
-            g.drawImage(image, null, x + 40 + (30 * imageList.indexOf(image)), y + 640);
+        int addedItems = 0;
+        for(Item item : soldList){
+            if(addedItems > 10)
+                g.drawImage(item.getImage(), null, x+40+(30* addedItems), y + 670);
+            else
+                g.drawImage(item.getImage(), null, x + 40 + (30 * addedItems - 10), y + 640);
+
+            addedItems++;
         }
-
-
-        imageList.clear();
     }
 }

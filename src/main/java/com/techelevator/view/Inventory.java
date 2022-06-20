@@ -2,6 +2,7 @@ package com.techelevator.view;
 
 import com.techelevator.VendingMachineCLI;
 import com.techelevator.swingImplementation.DisplayFrame;
+import com.techelevator.swingImplementation.VendingMachine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,6 +68,7 @@ public class Inventory {
                     selected.purchaseConfirmation();
                     System.out.printf("You have $%.2f of remaining balance. \r\n", Accounting.getCustomerMoney());
                     selected.lowerStock();
+                    VendingMachine.soldList.add(selected);
                 } else {
                     //prompt if not enough funds.
                     System.out.println("You do not have enough available balance.");

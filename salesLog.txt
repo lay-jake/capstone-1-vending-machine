@@ -1,17 +1,17 @@
-Stackers|0
-Cowtales|0
-Cola|0
-Heavy|0
+Stackers|1
+Cowtales|6
+Cola|1
+Heavy|1
 Cloud Popcorn|0
-Dr. Salt|0
+Dr. Salt|1
 Little League Chew|0
-Wonka Bar|0
-Crunchie|0
+Wonka Bar|4
+Crunchie|1
 Moonpie|0
-Potato Crisps|1
-Triplemint|0
-Mountain Melter|0
-U-Chews|0
+Potato Crisps|6
+Triplemint|2
+Mountain Melter|2
+U-Chews|1
 Grain Waves|0
-Chiclets|0
-Total Money Made: $3.05
+Chiclets|1
+Total Money Made: $46.85
