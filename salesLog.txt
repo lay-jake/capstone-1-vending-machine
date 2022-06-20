@@ -9,9 +9,9 @@ Wonka Bar|4
 Crunchie|1
 Moonpie|0
 Potato Crisps|6
-Triplemint|2
+Triplemint|3
 Mountain Melter|2
 U-Chews|1
 Grain Waves|0
 Chiclets|1
-Total Money Made: $46.85
+Total Money Made: $47.60

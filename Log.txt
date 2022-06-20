@@ -237,3 +237,8 @@
 6/20/22, 4:12 PM, Mountain Melter C3   $95.45  $93.95 
 6/20/22, 4:12 PM, Triplemint D4        $93.95  $93.20 
 6/20/22, 4:12 PM, GIVE CHANGE:         $93.20  $0.00 
+6/20/22, 4:34 PM, FEED MONEY:          $1.00  $1.00 
+6/20/22, 4:34 PM, FEED MONEY:          $5.00  $6.00 
+6/20/22, 4:34 PM, FEED MONEY:          $20.00  $26.00 
+6/20/22, 4:34 PM, Triplemint D4        $26.00  $25.25 
+6/20/22, 4:34 PM, GIVE CHANGE:         $25.25  $0.00 

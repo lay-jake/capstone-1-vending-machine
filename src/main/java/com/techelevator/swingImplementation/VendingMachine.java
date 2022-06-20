@@ -70,7 +70,8 @@ public class VendingMachine {
         ButtonPanel.drawSelection(g);
         //add Sold items to imageList
 //        for(Map.Entry<String, Item> entry: Inventory.getInventory().entrySet()){
-//            Item item = entry.getValue();
+//            Item item = entry.getValue();5
+
 //            for(int i = item.getStock(); i < 5; i++){
 //                if(!imageList.contains(item.getImage()))
 //                    imageList.add(item.getImage());

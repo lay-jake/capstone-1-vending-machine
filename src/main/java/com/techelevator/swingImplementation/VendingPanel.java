@@ -16,6 +16,7 @@ public class VendingPanel extends JPanel {
     private int width = 650;
     private VendingMachine vendingMachine;
     public ButtonPanel buttonPanel;
+    private MoneySelectionPanel moneySelectionPanel;
 
     public VendingPanel(){
         //SET UP VENDING PANEL
@@ -25,8 +26,13 @@ public class VendingPanel extends JPanel {
         //CREATE VENDING MACHINE INSTANCE
         vendingMachine = new VendingMachine();
 
+        //ADD SELECTION PANEL
         buttonPanel = new ButtonPanel();
         add(buttonPanel);
+
+        //ADD MONEY SELECTION PANEL
+        moneySelectionPanel = new MoneySelectionPanel();
+        add(moneySelectionPanel);
     }
 
     @Override
