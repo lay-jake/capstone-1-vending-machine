@@ -1,10 +1,10 @@
 ## Module 1 Capstone - Vending Machine Software
 
-You've been asked to develop an application for the newest vending machine distributor,
+Initial task is to develop an application for the newest vending machine distributor,
 Umbrella Corp. They've released a new vending machine, Vendo-Matic 800, that is integrated
 with everyone's bank accounts, allowing customers to purchase products from their computers for their convenience.
 
-### Application Requirements
+### User Stories /// Application Requirements
 
 1. The vending machine dispenses beverages, candy, chips, and gum.
    - Each vending machine item has a Name and a Price.
